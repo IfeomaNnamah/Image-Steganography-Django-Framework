@@ -1,0 +1,14 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+
+Pesan: <strong>{{ result }}</strong>
+<br>
+PSNR Method<font color="red"> {{ method }}:</font> <strong>{{ psnr }}</strong>
+MSE: <strong>{{ mse }}</strong>
+<br>
+<br>
+
+<a href="{% url 'index' %}">Kembali</a>
+
+{% endblock content %}

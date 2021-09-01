@@ -1,0 +1,101 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+	<div class="col-md-6">
+		<div class="card mb-2">
+		  <div class="card-body">
+			<p>Status: <strong>{{ result }}</strong></p>
+<!--			<p>Time taken to encode message: <strong>{{ enc_time }}</strong></p>-->
+		  </div>
+		</div>
+		<form id="encode_form" action="{% url 'encode' %}" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+		<div class="card">
+		  <div class="row">
+			  <div class="col-sm-6 card-header text-center">Encode</div>
+			<div class="col-sm-5 ml-3 card-header text-center">
+				<a href="{% url 'sharestegoimage' %}">
+					<i class="fas fa-share fa-md mr-1"></i> Share
+				</a>
+			</div>
+		  </div>
+
+		  <div class="card-body">
+			<label>Pictures</label>
+			<div class="form-group">
+				<i class="fa fa-check-circle" id="tick_picture" aria-hidden="true" style="color: #00cc00"></i>
+				<input class="form-control" id="encode_file" type="file" name="img" onchange="$('#preview')[0].src = window.URL.createObjectURL(this.files[0])" required="">
+			</div>
+			  <div class="form-group">
+			  		<i class="fa fa-check-circle" id="tick_message" aria-hidden="true" style="color: #00cc00"></i>
+					<textarea class="form-control" id="pesan" name='pesan' rows="4" cols="60" required placeholder="type your message here..."></textarea>
+				  <label>Total Chars: <label id="message_length"></label></label>
+				</div>
+			  <div class="form-group">
+				  <i class="fa fa-check-circle" id="tick_skey" aria-hidden="true" style="color: #00cc00"></i>
+				<input class="form-control" id="stegokey" name="stegokey" placeholder="input your stego key" >
+			</div>
+              <div class="row">
+				  <div class="col-md-3">
+					  <input id="btnencodelsb" class="form-check form-check-inline" type="radio" name="bit_type" value="encodelsb">
+                      <label class="form-check-label" for="btnencodelsb"> Stego 1 bit</label>
+				  </div>
+				  <div class="col-md-3">
+					  <input id="btnencodestego2bit" class="form-check form-check-inline" type="radio" name="bit_type" value="stego2bitencodelsb">
+                      <label class="form-check-label" for="btnencodestego2bit"> Stego 2 bit</label>
+				  </div>
+				  <div class="col-md-3">
+					  <input id="btnencodestego3bit" class="form-check form-check-inline" type="radio" name="bit_type" value="stego3bitencodelsb">
+                      <label class="form-check-label" for="btnencodestego3bit"> Stego 3 bit</label>
+				  </div>
+                  <div class="col-md-3">
+					  <input id="btnencodestego4bit" class="form-check form-check-inline" type="radio" name="bit_type" type="submit" value="stego4bitencodelsb">
+                      <label class="form-check-label" for="btnencodestego4bit"> Stego 4 bit</label>
+				  </div>
+			  </div>
+
+		  </div>
+		  <div class="card-footer text-muted">
+              <input class="btn btn-sm btn-block btn-primary" type="submit" value='Encode'>
+		  </div>
+		</div>
+		</form>
+	</div>
+
+	<div class="col-md-6">
+		<img src="" id="preview" class="img-responsive img-fluid">
+	</div>
+</div>
+<script src="{% static 'jquery/jquery-1.12.0.min.js' %}"></script>
+<script src="{% static 'js/jquery-ui-1.10.3.min.js' %}"></script>
+<script>
+$(document).ready(function() {
+	$("#tick_picture").hide();
+	$("#tick_message").hide();
+	$("#tick_skey").hide();
+	$("#pesan").val("This is a secret message.");
+    $("#stegokey").val("stegokeysuccess");
+	$("#pesan").keydown(function () {
+        $("#message_length").html($("#pesan").val().length);
+    })
+
+    $("#pesan").focusout(function () {
+        if ($("#pesan").val().length > 0){
+            $("#tick_message").show();
+        }else{
+        	$("#tick_message").hide();
+        }
+    })
+
+    $("#stegokey").keyup(function () {
+        if ($("#stegokey").val().length > 0){
+            $("#tick_skey").show();
+		}else{
+        	$("#tick_skey").hide();
+        }
+    })
+
+
+});
+</script>
+{% endblock content %}

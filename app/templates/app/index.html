@@ -1,0 +1,14 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block content %}
+<div class="p-5 text-center">
+    {% if user.username == '' %}
+        <h1 class="my-4 text-black display-1 text-center">Welcome, User</h1>
+    {% else %}
+        <h1 class="my-4 text-black display-1 text-center">Welcome, {{request.user}}</h1>
+    {% endif %}
+
+    <a class="btn btn-rounded btn-primary btn-lg mr-4" href="{% url 'p_encode' %}" role="button">Encode</a>
+    <a class="btn btn-rounded btn-dark btn-lg ml-4" href="{% url 'p_decode' %}" role="button">Decode</a>
+</div>
+{% endblock content %}

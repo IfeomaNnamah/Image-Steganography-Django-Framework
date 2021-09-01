@@ -1,0 +1,73 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+	{% if result %}
+		<p class="alert alert-info">{{result}}</p>
+	{% endif %}
+	<div class="col-md-6">
+		<div class="card mt-2">
+		  <div class="card-header text-center">Output</div>
+		  <div class="card-body">
+				<p>Message: <strong>{{ message }}</strong></p>
+				<p>PSNR (dB): </font> <strong>{{ psnr }} </strong></p>
+				<p>MSE: <strong>{{ mse }}</strong></p>
+				<p>BPP (bits per pixel): <strong>{{ bpp_value }} </strong></p>
+<!--				<p>Total number of characters that can be encoded (characters): <strong>{{ total_number_of_characters }} </strong></p>-->
+<!--				<p>Time taken to decode message (seconds): <strong>{{ enc_time }} </strong></p>-->
+				<p>Stego image size (bytes): <strong>{{stego_image_size}} </strong></p>
+				<p>Original image size (bytes): <strong>{{original_image_size}} </strong></p>
+				<p>File format: <strong>{{format}}</strong></p>
+				<p>Filename: <strong>{{filename}}</strong></p>
+		  </div>
+		</div>
+
+		<form class="form mt-2" action="{% url 'decode' %}" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+		<div class="card ">
+		 <div class="card-header text-center">Decode</div>
+		  <div class="card-body">
+			<label>Image</label>
+			<div class="form-group">
+				<input class="form-control" type="file" name="img" onchange="$('#preview')[0].src = window.URL.createObjectURL(this.files[0])" required="">
+			</div>
+			  <div class="form-group">
+				<input class="form-control" id="dstegokey" name="dstegokey" value="" placeholder="input your stego key" required>
+			</div>
+			<div class="row">
+				   <div class="col-md-3">
+					   <input id="btndecode" class="form-check form-check-inline" type="radio" name="bit_type" value="decodelsb">
+					   <label class="form-check-label" for="btndecode"> Stego 1 bit</label>
+				   </div>
+				   <div class="col-md-3">
+					   <input id="btndecodestego2bit" class="form-check form-check-inline" type="radio" name="bit_type" value="stego2bitdecodelsb">
+					   <label class="form-check-label" for="btndecodestego2bit"> Stego 2 bit</label>
+				   </div>
+				   <div class="col-md-3">
+					   <input id="btndecodestego3bit" class="form-check form-check-inline" type="radio" name="bit_type" value="stego3bitdecodelsb">
+					   <label class="form-check-label" for="btndecodestego3bit"> Stego 3 bit</label>
+				   </div>
+                   <div class="col-md-3">
+					   <input id="btndecodestego4bit" class="form-check form-check-inline" type="radio" name="bit_type" value="stego4bitdecodelsb">
+					   <label class="form-check-label" for="btndecodestego4bit"> Stego 4 bit</label>
+				   </div>
+			   </div>
+		  </div>
+		  <div class="card-footer text-muted">
+			   <input class="btn btn-sm btn-block btn-primary" type="submit" value='Decode'>
+		  </div>
+		</div>
+		</form>
+	</div>
+
+	<div class="col-md-6">
+		<img src="" id="preview" class="img-responsive img-fluid">
+	</div>
+</div>
+<script src="{% static 'jquery/jquery-1.12.0.min.js' %}"></script>
+<script src="{% static 'js/jquery-ui-1.10.3.min.js' %}"></script>
+<script>
+$(document).ready(function() {
+$("#dstegokey").val("stegokeysuccess");
+});
+</script>
+{% endblock content %}

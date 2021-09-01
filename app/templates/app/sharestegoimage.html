@@ -1,0 +1,55 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+<div class="col-md-3"></div>
+<div class="col-md-6">
+    <input id="current_user" value="{{request.user}}" type="text" hidden>
+    <p class="alert alert-info text-center">Ensure to share the original encrypted image and not a copy, else it may lead to errors.</p>
+    <form class="form" action='' method='POST' enctype="multipart/form-data">
+        {% csrf_token %}
+<!--        {{ form.as_p }}-->
+        <div class="form-group">
+            <label>Photo</label>
+            {{ form.photo }}
+            <span class="error"></span>
+        </div>
+        <div class="form-group">
+            <label>Photo Title</label>
+            {{ form.photo_title }}
+            <span class="error"></span>
+        </div>
+        <div class="form-group">
+            <label>Sender Username</label>
+            {{ form.sender_username }}
+            <span class="error"></span>
+        </div>
+        <div class="form-group">
+            <label>Recipient Username</label>
+            {{ form.recipient_username }}
+            <span class="error"></span>
+        </div>
+        <div class="form-group">
+            <label>Sent Date</label>
+            {{ form.sent_date }}
+            <span class="error"></span>
+        </div>
+        <input class="btn btn-sm btn-block btn-primary" type='submit' value='Share' />
+    </form>
+</div></div>
+
+<script src="{% static 'jquery/jquery-1.12.0.min.js' %}"></script>
+<script src="{% static 'js/jquery-ui-1.10.3.min.js' %}"></script>
+
+<script type="text/javascript">
+    current_user = $("#current_user").val();
+    if (current_user == 'AnonymousUser')
+    {
+        $("#id_sender_username").val('user');
+    }else{
+        $("#id_sender_username").val(current_user);
+    }
+
+    $("#id_sender_username").attr('readonly','readonly')
+</script>
+{% endblock %}

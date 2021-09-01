@@ -1,0 +1,24 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+<div class="row">
+<table class="table table-striped white">
+    <thead>
+        <td>Title</td>
+        <td></td>
+    </thead>
+    <tbody>
+        {% for mail in mails %}
+        <tr>
+            <td><a href="">{{ mail.photo_title }}</a></td>
+            <td>
+                <a href="{% url 'download' mail.id %}" class="nav-link ">
+                    <i class="fas fa-download fa-lg" style="color: #1266F1;"></i>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

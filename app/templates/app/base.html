@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html>
+<head>
+	<title>{{ title_page }}</title>
+	<link rel="stylesheet" href="{% static 'app/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'app/mdb.min.css' %}">
+    <script src="{% static 'app/mdb.min.js' %}"></script>
+    <script src="{% static 'app/jquery.min.js' %}"></script>
+    <script src="{% static 'app/popper.min.js' %}"></script>
+    <script src="{% static 'app/bootstrap.min.js' %}"></script>
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+  rel="stylesheet"
+/>
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.0.0/mdb.min.css"
+  rel="stylesheet"
+/>
+	<!-- MDB -->
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.0.0/mdb.min.js"
+></script>
+</head>
+<body>
+<header>
+	  <!-- Jumbotron -->
+  <div class="p-3 text-center bg-light">
+    <h3 class="mb-3">Image-based Steganography</h3>
+<!--    <h5 class="mb-3">Subheading</h5>-->
+  </div>
+  <!-- Jumbotron -->
+  <!-- Navbar -->
+<nav class="navbar navbar-expand-sm navbar-light bg-light mb-3 border">
+  <!-- Container wrapper -->
+  <div class="container-fluid">
+    <!-- Toggle button -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-mdb-toggle="collapse"
+      data-mdb-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Collapsible wrapper -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <!-- Left links -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Home</a>
+        </li>
+          <li class="nav-item">
+          <a href="{% url 'mails' %}" class="nav-link">
+              <i class="fas fa-envelope fa-lg" style="color: #1266F1;"></i>
+              {% if user.username == '' %}
+                 <span class="badge rounded-pill badge-notification bg-danger">0</span>
+              {% else %}
+                <span class="badge rounded-pill badge-notification bg-danger">{{mailcount}}</span>
+                {% endif %}
+<!--              <span class="badge rounded-pill badge-notification bg-danger">{{mailcount}}</span>-->
+            </a>
+        </li>
+
+      </ul>
+
+        {% if user.username == '' %}
+        <span><a class="nav-link" href="#">Welcome, User</a></span>
+        <span><a class="nav-link btn btn-sm btn-dark" href="{% url 'register' %}">Register</a></span>
+         <span><a class="nav-link btn btn-sm text-white btn-primary" href="{% url 'login' %}">Log in</a></span>
+      {% else %}
+        <span><a class="nav-link" href="#">Welcome, {{request.user}}</a></span>
+        <span><a class="nav-link btn btn-sm btn-outline-grey" href="{% url 'logout' %}">Log out</a></span>
+        {% endif %}
+
+      <!-- Left links -->
+    </div>
+    <!-- Collapsible wrapper -->
+  </div>
+  <!-- Container wrapper -->
+</nav>
+  <!-- Navbar -->
+
+</header>
+
+	<div class="container">
+		{% block content %}
+
+		{% endblock content %}
+	</div>
+
+	<script src="{% static 'jquery/jquery-1.12.0.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui-1.10.3.min.js' %}"></script>
+
+    <script type="text/javascript">
+    	$(document).ready(function() {
+		    var text_max = 100;
+		    $('#counter_char').html(text_max);
+
+		    $('#pesan').keyup(function() {
+		        var text_length = $('#pesan').val().length;
+		        var text_remaining = text_max - text_length;
+
+		        $('#counter_char').html(text_remaining);
+		    });
+		});
+    </script>
+
+</body>
+</html>
